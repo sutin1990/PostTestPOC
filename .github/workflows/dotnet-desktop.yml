@@ -43,6 +43,10 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+    
+env:
+  AZURE_WEBAPP_NAME: webapidotnet5
+  WORKING_DIRECTORY: WebApidotNet5
 
 jobs:
 
@@ -79,11 +83,11 @@ jobs:
     - name:  Build app
       run: dotnet build -c Release --no-restore
       
-    - name: 'Run Azure webapp deploy action using publish profile credentials'
+    - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
       with: 
-        app-name: WebApidotNet5 # Replace with your app name
-        publish-profile: WebApidotNet5 - Web Deploy # Define secret variable in repository settings as per action documentation
-        #package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/WebApiDemo/'
+        app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
+        publish-profile: ${{ secrets.MY_SECRET_PUBLISH_PROFILE }} # Define secret variable in repository settings as per action documentation
+        package: '${{ env.WORKING_DIRECTORY }}/WebApiDemo/'
 
 
