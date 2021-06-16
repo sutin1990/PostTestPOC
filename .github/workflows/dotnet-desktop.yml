@@ -43,6 +43,10 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+    
+env:
+  AZURE_WEBAPP_NAME: webapidotnet5
+  AZURE_WEBAPP_PACKAGE_PATH: '.'
 
 jobs:
 
@@ -50,7 +54,7 @@ jobs:
 
     strategy:
       matrix:
-        configuration: [Debug, Release]
+        configuration: [Release]
 
     runs-on: windows-latest  # For a list of available runner types, refer to
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
@@ -77,4 +81,15 @@ jobs:
       run: dotnet restore
 
     - name:  Build app
-      run: dotnet build -c Release --no-restore
+      run: | 
+        dotnet build --configuration Release
+        dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/WebApiDemo'
+      
+    - name: 'Deploy to Azure WebApp'
+      uses: azure/webapps-deploy@v2
+      with: 
+        app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }} # Define secret variable in repository settings as per action documentation
+        package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/WebApiDemo'
+
+
