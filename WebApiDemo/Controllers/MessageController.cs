@@ -25,12 +25,12 @@ namespace WebApiDemo.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<IEnumerable<Message>> Get()
         {
-            var data = new Message { clientuniqueid = "23", message = "hello adminxxx", date = DateTime.Now, Id = 11 };
-            var listResult = new List<Message>();
-            listResult.Add(data);
-            return listResult;
-            //var result = _context.Message.Select(s => s).ToList();
-            //return result;
+            //var data = new Message { clientuniqueid = "23", message = "hello adminxxx", date = DateTime.Now, Id = 11 };
+            //var listResult = new List<Message>();
+            //listResult.Add(data);
+            //return listResult;
+            var result = _context.Message.Select(s => s).ToList();
+            return result;
         }
     }
 }
