@@ -34,7 +34,13 @@ namespace WebApiDemo
             services.AddControllers();
             services.AddDbContext<DataContext>(option =>
             {
-                option.UseSqlServer(Configuration.GetConnectionString("ConnectionDbContext"));
+                option.UseSqlServer(Configuration.GetConnectionString("ConnectionDbContext"),
+                    sqlServerOptionsAction: sqlOptions=>{
+                        sqlOptions.EnableRetryOnFailure(
+                            maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                        
+                        });                
+                
             });
             services.AddSwaggerDocument(config =>
             {
@@ -42,7 +48,7 @@ namespace WebApiDemo
                 {
                     document.Info.Version = applicationVersion;
                     document.Info.Title = "Chat - Web APIs";
-                    document.Info.Description = $"Web APIs: ASP.NET Core 2.2, Owner: {applicationOwner}, Schema: {databaseSchema}";
+                    document.Info.Description = $"Web APIs: ASP.NET 5, Owner: {applicationOwner}, Schema: {databaseSchema}";
                 };
             });
         }
