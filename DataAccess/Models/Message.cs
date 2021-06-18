@@ -5,13 +5,13 @@ using System.Text;
 
 namespace DataAccess.Models
 {
-    public class Message
+    public class User
     {
         [Key]
-        public long Id { get; set; }
-        public string clientuniqueid { get; set; }
-        public string type { get; set; }
-        public string message { get; set; }
-        public DateTime date { get; set; }
+        public int Id { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
     }
 }

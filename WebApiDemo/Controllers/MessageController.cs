@@ -6,9 +6,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using DataAccess.DataConnectContext;
 using DataAccess.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApiDemo.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class MessageController : ControllerBase
@@ -20,6 +22,7 @@ namespace WebApiDemo.Controllers
 
         }
 
+        [Authorize]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

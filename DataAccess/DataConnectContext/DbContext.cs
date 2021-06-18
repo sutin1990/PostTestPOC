@@ -15,5 +15,6 @@ namespace DataAccess.DataConnectContext
         }
 
         public DbSet<Message> Message { get; set; }
+        public DbSet<User> User { get; set; }
     }
 }
